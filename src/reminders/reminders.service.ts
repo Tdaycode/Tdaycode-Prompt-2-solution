@@ -36,14 +36,17 @@ export class RemindersService {
   }
 
   async findOne(id: number) { 
-    if (!id) {
-      throw new NotFoundException('Reminder not found');
-    }
+    if (id) {
     const reminder = await this.reminderModel.findById(id);
     if (!reminder) {
       throw new NotFoundException(`${id} not found`);
-    } 
-    return reminder;
+      } 
+      return reminder;
+    } else {
+      throw new Error('id is required');
+    }
+   
+    
   }
 
 }
