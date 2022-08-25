@@ -1,0 +1,11 @@
+### Create reminder
+
+POST http://localhost:3000/reminder
+Content-Type: application/json
+
+{   "date": "2020-08-24T07:28:24.000Z",
+    "id": 2,
+    "user": 1,
+    "description": "Drink Coffee"
+    
+}
