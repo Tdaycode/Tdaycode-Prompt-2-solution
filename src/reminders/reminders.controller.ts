@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body,  Param, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body,  Param, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { RemindersService } from './reminders.service';
 import { CreateReminderDto } from './dto/create-reminder.dto';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 
 
-@Controller('reminder')
+@Controller('reminders')
 export class RemindersController {
   constructor(private readonly remindersService: RemindersService) {}
 
@@ -21,12 +21,12 @@ export class RemindersController {
     return this.remindersService.create(createReminderDto);
   }
 
-  @Get('')
+  @Get('/:user?/:after?')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get all reminders' })
   @ApiOkResponse({})
-  findAll() {
-    return this.remindersService.find();
+  async find(@Query('user') user: number, @Query('after') after: Date) {
+    return this.remindersService.find(user, after);
   }
 
   @Get('/:id')
@@ -34,7 +34,7 @@ export class RemindersController {
   @ApiOperation({ summary: 'Get all reminders by id' })
   @ApiOkResponse({})
   async findOne(@Param('id') id: string) {
-    const reminder = await this.remindersService.findOne(parseInt(id));
+    const reminder = this.remindersService.findOne(parseInt(id));
     return reminder
     
   }
