@@ -22,9 +22,9 @@ export class RemindersService {
     return reminder;
   }
 
-  async find(user: number, after: Date): Promise<Reminder[]> {
+  async find(user: number, after: string): Promise<Reminder[]> {
+    let date = new Date( parseInt(after)); 
     let query = {};
-    let date = new Date(after); 
     if (user) {
       query = { user: user };
     }
@@ -32,9 +32,7 @@ export class RemindersService {
     if (after) {
       query = { ...query, date: { $gte: date } };
     }
-    const reminder = await this.reminderModel.find(query);
-    console.log(reminder.length);
-    return reminder;
+    return await this.reminderModel.find(query);
   }
 
   async findOne(id: number): Promise<Reminder> { 
