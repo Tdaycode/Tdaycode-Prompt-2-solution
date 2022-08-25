@@ -26,7 +26,9 @@ export class RemindersController {
   @ApiOperation({ summary: 'Get all reminders' })
   @ApiOkResponse({})
   async find(@Query('user') user: number, @Query('after') after: Date) {
-    return this.remindersService.find(user, after);
+    const reminder = await this.remindersService.find(user, after);
+    return reminder
+
   }
 
   @Get('/:id')
@@ -34,8 +36,7 @@ export class RemindersController {
   @ApiOperation({ summary: 'Get all reminders by id' })
   @ApiOkResponse({})
   async findOne(@Param('id') id: string) {
-    const reminder = this.remindersService.findOne(parseInt(id));
-    return reminder
+    return this.remindersService.findOne(parseInt(id))
     
   }
 

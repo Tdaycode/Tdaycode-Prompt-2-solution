@@ -24,19 +24,17 @@ export class RemindersService {
 
   async find(user: number, after: Date): Promise<Reminder[]> {
     let query = {};
-
-    let sort = {};
+    let date = new Date(after); 
     if (user) {
-      query['user'] = user;
-    }
-    if (after) {
-      // Sort with milliseconds
-      sort['createdAt'] = 1;
-    } else {
-      sort['createdAt'] = -1;
+      query = { user: user };
     }
 
-    return this.reminderModel.find(query).sort(sort).exec();
+    if (after) {
+      query = { ...query, date: { $gte: date } };
+    }
+    const reminder = await this.reminderModel.find(query);
+    console.log(reminder.length);
+    return reminder;
   }
 
   async findOne(id: number): Promise<Reminder> { 
