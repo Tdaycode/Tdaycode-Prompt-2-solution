@@ -32,9 +32,9 @@ export class RemindersController {
 
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Get all reminders by id' })
+  @ApiOperation({ summary: 'Get  reminders by id' })
   @ApiOkResponse({})
   async findOne(@Param('id') id: string) {
-    return await this.remindersService.findOne(parseInt(id))
+    return await this.remindersService.findOne(parseInt(id));
   }
 }

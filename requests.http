@@ -9,3 +9,6 @@ Content-Type: application/json
     "description": "Drink Coffee"
     
 }
+
+### Get reminder
+GET http://localhost:3000/reminders

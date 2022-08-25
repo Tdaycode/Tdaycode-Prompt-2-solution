@@ -9,7 +9,7 @@ export class RemindersService {
   constructor(@InjectModel('Reminder') private reminderModel: Model<Reminder>) {}
    
 
-  async create(createReminderDto: CreateReminderDto): Promise<Reminder> {
+  async create(createReminderDto: CreateReminderDto) {
 
     const reminder = new this.reminderModel(createReminderDto)
     const lastId = await this.reminderModel.find().sort({ _id: -1 }).limit(1);
@@ -22,7 +22,7 @@ export class RemindersService {
     return reminder;
   }
 
-  async find(user: number, after: string): Promise<Reminder[]> {
+  async find(user: number, after: string){
     let date = new Date( parseInt(after)); 
     let query = {};
     if (user) {
@@ -32,10 +32,13 @@ export class RemindersService {
     if (after) {
       query = { ...query, date: { $gte: date } };
     }
-    return await this.reminderModel.find(query);
+    return this.reminderModel.find(query);
   }
 
-  async findOne(id: number): Promise<Reminder> { 
+  async findOne(id: number) { 
+    if (!id) {
+      throw new NotFoundException('Reminder not found');
+    }
     const reminder = await this.reminderModel.findById(id);
     if (!reminder) {
       throw new NotFoundException(`${id} not found`);
