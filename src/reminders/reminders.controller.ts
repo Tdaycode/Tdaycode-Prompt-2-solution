@@ -21,6 +21,14 @@ export class RemindersController {
     return this.remindersService.create(createReminderDto);
   }
 
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get  reminders by id' })
+  @ApiOkResponse({})
+  async findOne(@Param('id') id: string) {
+    return await this.remindersService.findOne(parseInt(id));
+  }
+
   @Get('/:user?/:after?')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get all reminders' })
@@ -30,11 +38,5 @@ export class RemindersController {
 
   }
 
-  @Get('/:id')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Get  reminders by id' })
-  @ApiOkResponse({})
-  async findOne(@Param('id') id: string) {
-    return await this.remindersService.findOne(parseInt(id));
-  }
+
 }
